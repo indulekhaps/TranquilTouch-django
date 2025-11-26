@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit This Category · Tranquil Touch Admin</title>
+
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body{background:#f3f7fb;font-family:"Nunito",sans-serif;}
+    .page-wrapper{padding:26px;max-width:900px;margin:auto;}
+    .card-glass{
+      background:rgba(255,255,255,0.95);border-radius:12px;
+      box-shadow:0 4px 18px rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.03);
+    }
+    .page-title{display:flex;justify-content:space-between;margin-bottom:18px;}
+    .page-title h3{font-weight:700;color:#0f172a;margin:0;}
+
+    .input-icon{position:relative;}
+    .input-icon i{
+      position:absolute;left:12px;top:50%;transform:translateY(-50%);
+      color:#6b7280;font-size:14px;
+    }
+    .form-control{padding-left:40px;height:44px;border-radius:10px;}
+    textarea.form-control{height:100px;padding-left:12px;}
+
+    /* image preview */
+    .upload-box{border:2px dashed rgba(0,0,0,0.1);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:.2s;}
+    .upload-box:hover{background:#f9fafc;transform:translateY(-3px);}
+    .img-preview{height:140px;width:100%;border-radius:10px;background-size:cover;background-position:center;border:1px solid rgba(0,0,0,0.05);margin-bottom:10px;}
+
+    /* buttons */
+    .btn-primary{
+      background:linear-gradient(90deg,#3b82f6,#7c3aed);border:0;border-radius:10px;padding:10px 22px;
+      box-shadow:0 4px 16px rgba(59,130,246,0.15);font-weight:600;
+    }
+    .btn-outline{border-radius:10px;padding:10px 18px;}
+
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+  <div class="page-title">
+    <h3>Edit This Category</h3>
+    <div>
+      <a href="#" onclick="window.history.back();" class="btn btn-outline"><i class="fa fa-arrow-left mr-2"></i>Back</a>
+      <a href="/admin/categories/" class="btn btn-outline">View Categories</a>
+    </div>
+  </div>
+
+  <div class="card-glass p-4">
+    <form id="categoryForm" action="{% url 'update_category' c_id=category.id %}" method="post" enctype="multipart/form-data" class="row">
+      {% csrf_token %}
+
+      <!-- Category Name -->
+      <div class="col-md-6 mb-3">
+        <label><strong>Category Name</strong> <span class="text-danger">*</span></label>
+        <div class="input-icon">
+          <i class="fa fa-tags"></i>
+          <input type="text" id="catName" name="category_name" value="{{category.Category_Name}}" class="form-control" placeholder="e.g. Hair, Skin, Bridal" required>
+        </div>
+      </div>
+
+      <!-- Status -->
+     <div class="col-md-6 mb-3">
+    <label><strong>Status</strong></label>
+    <select id="status" name="status" class="form-control">
+        <option value="Active" {% if category.Status == "Active" %}selected{% endif %}>Active</option>
+        <option value="Inactive" {% if category.Status == "Inactive" %}selected{% endif %}>Inactive</option>
+    </select>
+</div>
+
+
+      <!-- Description -->
+      <div class="col-md-12 mb-3">
+        <label><strong>Description</strong></label>
+        <textarea id="description" name="description" class="form-control" placeholder="Short info about category...">{{category.Description}}</textarea>
+      </div>
+
+      <!-- Image -->
+      <div class="col-md-12 mb-4">
+        <label><strong>Category Image</strong></label>
+        <img src="{{category.Category_Image.url }}" height="150px" width="150px">
+        <div class="upload-box" onclick="document.getElementById('imgInput').click()">
+          <div id="imgPreview" class="img-preview" style="background-image:url('https://via.placeholder.com/600x400?text=Preview');"></div>
+          <button type="button" class="btn btn-outline"><i class="fa fa-camera mr-2"></i>Upload Image</button>
+          <input id="imgInput" name="cat_image" type="file" accept="image/*" style="display:none" onchange="previewCatImg(this)">
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="col-12 text-right">
+        <button type="reset" class="btn btn-outline mr-2">Reset</button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-2"></i>Save Category</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- JS preview + dummy submit -->
+<script>
+  function previewCatImg(input){
+    if (input.files && input.files[0]){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        document.getElementById('imgPreview').style.backgroundImage = `url(${e.target.result})`;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function submitCategory(e){
+    e.preventDefault();
+    if(!document.getElementById("catName").value.trim()){
+      alert("Category Name is required!");
+      return false;
+    }
+    alert("Category saved (demo). Connect this to Django view.");
+    return false;
+  }
+</script>
+
+</body>
+</html>
