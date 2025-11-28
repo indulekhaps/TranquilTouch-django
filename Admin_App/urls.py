@@ -6,6 +6,7 @@ urlpatterns=[
     path('Admin_Login/',views.admin,name="admin"),
     path('Admin_Login_check/',views.admin_login,name="admin_login"),
     path('Admin/Services/', views.admin_services, name="admin_services"),
+    path('Services_Save/', views.save_services, name="save_services"),
 
 
     path('Category/',views.category,name="category"),
