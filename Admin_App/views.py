@@ -49,6 +49,8 @@ def save_services(request):
         obj.save()
         return redirect(admin_services)
 
+def view_services(request):
+    return render(request, "View_Services.html")
 
 def category(request):
     return render(request, "Category.html")
