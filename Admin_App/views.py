@@ -50,7 +50,13 @@ def save_services(request):
         return redirect(admin_services)
 
 def view_services(request):
-    return render(request, "View_Services.html")
+    data = Servicedb.objects.all()
+    return render(request, "View_Services.html",{'data':data})
+
+def edit_services(request,service_id):
+    Service=Servicedb.objects.get(id=service_id)
+    categories = Categorydb.objects.filter(Status="Active")
+    return render(request, "Edit_Services.html",{'Service':Service, 'categories': categories})
 
 def category(request):
     return render(request, "Category.html")
