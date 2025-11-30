@@ -20,7 +20,7 @@
     {% for i in data %}
     <tr>
         <td>{{i.Service_Name}}</td>
-        <td>{{i.Category}}</td>
+        <td>{{i.Category.Category_Name }}</td>
         <td>{{i.Price}}</td>
         <td>{{i.Duration}}</td>
         <td>{{i.Description}}</td>
@@ -32,7 +32,7 @@
             <a href="{% url 'edit_services' service_id=i.id %}">
                 <button>Edit</button>
             </a>
-            <a>
+            <a href="{% url 'delete_services' service_id=i.id %}">
                 <button>Delete</button>
             </a>
         </td>

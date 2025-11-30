@@ -152,7 +152,8 @@
     </div>
 
     <div class="card card--glass">
-        <form>
+        <form method="post" enctype="multipart/form-data" action="{% url 'update_services' s_id=Service.id %}">
+            {% csrf_token %}
 
             <!-- LEFT COLUMN: details -->
             <div class="col-md-7">
@@ -175,15 +176,13 @@
                                 <div class="input-icon">
                                     <i class="fa fa-list"></i>
                                     <select class="form-control" name="Category" id="category">
-
     <option value="">-- Select Category --</option>
 
-    {% for i in categories %}
-        <option value="{{ i.id }}" {% if Service.Category.id == i.id %}selected{% endif %}>
+    {% for i in cat %}
+        <option value="{{ i.id }}" {% if i.id == Service.Category.id %}selected{% endif %}>
             {{ i.Category_Name }}
         </option>
     {% endfor %}
-
 </select>
                                 </div>
                             </div>

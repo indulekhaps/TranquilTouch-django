@@ -9,6 +9,8 @@ urlpatterns=[
     path('Services_Save/', views.save_services, name="save_services"),
     path('View_Services/', views.view_services, name="view_services"),
     path('Edit_Services/<int:service_id>', views.edit_services, name="edit_services"),
+    path('Update_Services/<int:s_id>', views.update_services, name="update_services"),
+    path('Delete_Services/<int:service_id>', views.delete_services, name="delete_services"),
 
 
     path('Category/',views.category,name="category"),

@@ -53,10 +53,33 @@ def view_services(request):
     data = Servicedb.objects.all()
     return render(request, "View_Services.html",{'data':data})
 
-def edit_services(request,service_id):
-    Service=Servicedb.objects.get(id=service_id)
+def edit_services(request, service_id):
+    service = Servicedb.objects.get(id=service_id)
     categories = Categorydb.objects.filter(Status="Active")
-    return render(request, "Edit_Services.html",{'Service':Service, 'categories': categories})
+    return render(request, "Edit_Services.html", {'Service': service, 'cat': categories})
+
+def update_services(request,s_id):
+    if request.method == "POST":
+        service_name = request.POST.get('service_name')
+        category_id = request.POST.get('Category')
+        price = request.POST.get('price')
+        duration = request.POST.get('duration')
+        description = request.POST.get('description')
+        status = request.POST.get('status')
+        try:
+            image = request.FILES['service_image']
+            fs=FileSystemStorage()
+            file=fs.save(image.name,image)
+        except MultiValueDictKeyError:
+            file=Servicedb.objects.get(id=s_id).Service_Image
+        Servicedb.objects.filter(id=s_id).update(Service_Name=service_name, Category_id=category_id, Price=price, Duration=duration,
+                        Description=description, Status=status, Service_Image=file)
+        return redirect(view_services)
+
+def delete_services(request,service_id):
+    data=Servicedb.objects.filter(id=service_id)
+    data.delete()
+    return redirect(view_services)
 
 def category(request):
     return render(request, "Category.html")
