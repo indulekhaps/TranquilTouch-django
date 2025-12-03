@@ -13,10 +13,9 @@ urlpatterns=[
     path('Delete_Services/<int:service_id>', views.delete_services, name="delete_services"),
     path('Add_Staff/',views.add_staff, name="add_staff"),
     path('Save_Staff/',views.save_staff, name="save_staff"),
+    path('View_Staff/',views.view_staff, name="view_staff"),
 
     path('get_services_by_category/', views.get_services_by_category, name="get_services_by_category"),
-
-
 
 
     path('Category/',views.category,name="category"),

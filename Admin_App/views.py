@@ -169,3 +169,7 @@ def get_services_by_category(request):
     }
 
     return JsonResponse(data)
+
+def view_staff(request):
+    data = Staffdb.objects.all()
+    return render(request,"View_Staff.html",{'data':data})
