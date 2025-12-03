@@ -173,3 +173,15 @@ def get_services_by_category(request):
 def view_staff(request):
     data = Staffdb.objects.all()
     return render(request,"View_Staff.html",{'data':data})
+
+def edit_staff(request,staff_id):
+    Staff=Staffdb.objects.get(id=staff_id)
+    cat = Categorydb.objects.all()
+    services = Servicedb.objects.all()
+    # Convert staff's services string to list for pre-checking
+    selected_services = []
+    if Staff.Services:
+        selected_services = Staff.Services.split(',')
+    return render(request,"Edit_Staff.html",{'Staff':Staff, 'cat': cat, 'services': services,             # <-- SEND TO TEMPLATE
+        'selected_services': selected_services,   # <-- SEND SELECTED LIST
+    })

@@ -14,6 +14,7 @@ urlpatterns=[
     path('Add_Staff/',views.add_staff, name="add_staff"),
     path('Save_Staff/',views.save_staff, name="save_staff"),
     path('View_Staff/',views.view_staff, name="view_staff"),
+    path('Edit_Staff/<int:staff_id>',views.edit_staff, name="edit_staff"),
 
     path('get_services_by_category/', views.get_services_by_category, name="get_services_by_category"),
 

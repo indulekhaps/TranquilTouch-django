@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Staff · Tranquil Touch Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root{
+          --primary: #3b82f6;
+          --accent:  #7c3aed;
+          --muted:   #6b7280;
+          --radius:  12px;
+        }
+        body{
+          background: #f3f7fb;
+          font-family: "Nunito", "Segoe UI", Roboto, Arial, sans-serif;
+          color: #111827;
+        }
+
+        .page-wrapper{
+          padding: 28px;
+          max-width: 1100px;
+          margin: 24px auto;
+        }
+        .card--glass{
+          border-radius: var(--radius);
+          background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,250,255,0.92));
+          box-shadow: 0 6px 28px rgba(14,30,60,0.08);
+          border: 1px solid rgba(20,20,40,0.03);
+        }
+
+        .page-title{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          margin-bottom:16px;
+        }
+        .page-title h2{ font-weight:700; color:#0f172a; }
+        .small-muted{ color:var(--muted); }
+
+        .form-section{ padding:22px; }
+
+        .form-group .input-icon{ position:relative; }
+        .form-group .input-icon i{
+          position:absolute; left:12px; top:50%; transform:translateY(-50%);
+          color:var(--muted); font-size:14px;
+        }
+        .form-group input.form-control,
+        .form-group select.form-control,
+        .form-group textarea.form-control{
+          padding-left:40px;
+          border-radius:10px;
+          height:44px;
+          border:1px solid rgba(20,20,40,0.06);
+        }
+        .form-group textarea.form-control{
+          height:110px; padding-left:14px; padding-top:12px;
+        }
+
+        .upload-area{
+          border: 2px dashed rgba(20,20,40,0.06);
+          border-radius:10px;
+          padding:18px;
+          text-align:center;
+          background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(245,246,250,0.6));
+          transition: .18s ease;
+        }
+        .upload-area:hover{
+          transform:translateY(-3px);
+          box-shadow:0 8px 30px rgba(14,30,60,0.05);
+        }
+
+        .img-preview{
+          width:100%;
+          height:160px;
+          background-size:cover;
+          background-position:center;
+          border-radius:8px;
+          margin-bottom:10px;
+          border:1px solid rgba(0,0,0,0.04);
+        }
+
+        .btn-primary{
+          background: linear-gradient(90deg,var(--primary),var(--accent));
+          border:0; border-radius:10px;
+          padding:10px 20px;
+          box-shadow: 0 6px 18px rgba(59,130,246,0.14);
+          font-weight:600;
+        }
+        .btn-outline{
+          background:#fff;
+          border:1px solid rgba(20,20,40,0.06);
+          border-radius:10px;
+          padding:10px 18px;
+          color:#111827;
+        }
+
+        .actions{
+          display:flex;
+          justify-content:flex-end;
+          gap:12px;
+          padding:18px 22px;
+          border-top:1px dashed rgba(20,20,40,0.03);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="page-title">
+        <div>
+            <h2>Edit Staff</h2>
+            <div class="small-muted">Create a staff profile, assign work categories & roles</div>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <a href="{% url 'dashboard' %}" class="btn btn-outline mr-2">
+                <i class="fa fa-arrow-left mr-2"></i> Back
+            </a>
+            <a href="#" class="btn btn-outline">View Staff</a>
+        </div>
+    </div>
+
+    <div class="card card--glass">
+
+        <form action="#" method="post" enctype="multipart/form-data" class="row no-gutters">
+
+
+
+            <!-- LEFT COLUMN -->
+            <div class="col-md-7">
+                <div class="form-section">
+                    <div class="row">
+
+                        <!-- Staff Name -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Staff Name *</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-user"></i>
+                                    <input type="text" value="{{Staff.Staff_Name}}" name="staff_name" class="form-control"
+                                           placeholder="e.g. Anu Krishna" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Role -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Role *</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-briefcase"></i>
+                                    <select name="role" class="form-control" required>
+    <option value="">Select role</option>
+
+    <option value="Hair Specialist"
+        {% if Staff.Role == "Hair Specialist" %}selected{% endif %}>
+        Hair Specialist
+    </option>
+
+    <option value="Skin Expert"
+        {% if Staff.Role == "Skin Expert" %}selected{% endif %}>
+        Skin Expert
+    </option>
+
+    <option value="Makeup Artist"
+        {% if Staff.Role == "Makeup Artist" %}selected{% endif %}>
+        Makeup Artist
+    </option>
+
+    <option value="Nail Technician"
+        {% if Staff.Role == "Nail Technician" %}selected{% endif %}>
+        Nail Technician
+    </option>
+
+    <option value="Massage Therapist"
+        {% if Staff.Role == "Massage Therapist" %}selected{% endif %}>
+        Massage Therapist
+    </option>
+
+    <option value="Salon Manager"
+        {% if Staff.Role == "Salon Manager" %}selected{% endif %}>
+        Salon Manager
+    </option>
+</select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Work Category -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Category *</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-list"></i>
+                                    <select name="work_category" id="categorySelect" class="form-control" >
+                                        <option value="">Select Category</option>
+                                        {% for i in cat %}
+                                        <option value="{{ i.Category_Name }}"
+                                            {% if i.Category_Name == Staff.Work_category %}selected{% endif %}>
+                                            {{ i.Category_Name }}
+                                        </option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services -->
+                        <div class="col-md-6">
+    <label class="font-weight-600">Services *</label>
+    <div class="form-group">
+        <div class="input-icon">
+            <div id="servicesBox"
+                style="border:1px solid #d1d1d1; padding:10px; border-radius:8px; max-height:100px; overflow-y:auto;">
+                 {% for s in services %}
+                <div>
+                    <input type="checkbox" name="services"
+                           value="{{ s.Service_Name }}"
+                           {% if s.Service_Name in selected_services %}checked{% endif %}>
+                    <label>{{ s.Service_Name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                        <!-- Phone -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Phone *</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-phone"></i>
+                                    <input type="text" name="phone" value="{{Staff.Phone}}" class="form-control"
+                                           placeholder="e.g. 9876543210" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Email</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-envelope"></i>
+                                    <input type="email" name="email" value="{{Staff.Email}}" class="form-control"
+                                           placeholder="e.g. anu@gmail.com">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Experience *</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-award"></i>
+                                    <input type="text" value="{{Staff.Experience}}" name="experience" class="form-control"
+                                           placeholder="e.g. 2 Years" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Salary -->
+                        <div class="col-md-6">
+                            <label class="font-weight-600">Salary</label>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-money-bill"></i>
+                                    <input type="number" name="salary" value="{{Staff.Salary}}" class="form-control" placeholder="e.g. 15000">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: IMAGE UPLOAD -->
+            <div class="col-md-5 border-left">
+                <div class="form-section">
+                    <label class="font-weight-600">Staff Image *</label>
+                    <img src="{{Staff.Staff_image.url}}" width="100px" height="100px">
+
+                    <div class="upload-area">
+                        <div id="preview" class="img-preview"
+                             style="background-image:url('https://via.placeholder.com/600x600?text=Preview');"></div>
+
+                        <div class="mb-2">
+                            <input id="imageInput" type="file" name="staff_image"  accept="image/*"
+                                   style="display:none" required onchange="previewImage(this)">
+                            <button type="button" class="btn btn-outline"
+                                    onclick="document.getElementById('imageInput').click();">
+                                <i class="fa fa-camera"></i> Upload Image
+                            </button>
+                        </div>
+
+                        <div class="small-muted">Recommended: 500×500 px • JPG/PNG</div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mt-3">
+                        <h6 class="mb-2">Quick Tips</h6>
+                        <ul class="small-muted" style="line-height:1.8;">
+                            <li>Upload a clear, professional staff photo.</li>
+                            <li>Select accurate role & category for filtering.</li>
+                            <li>Assign services handled for auto-booking.</li>
+                            <li>Ensure phone number is correct.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="col-12 actions">
+                <button type="reset" class="btn btn-outline">Reset</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-plus mr-2"></i> Save Staff
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+function previewImage(input){
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e){
+      document.getElementById('preview').style.backgroundImage =
+        'url(' + e.target.result + ')';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+
+$(document).ready(function() {
+    $('#categorySelect').change(function() {
+        var category = $(this).val();
+        if(category) {
+            $.ajax({
+                url: "{% url 'get_services_by_category' %}",
+                data: {'category': category},
+                dataType: 'json',
+                success: function(data) {
+                    var servicesBox = $('#servicesBox');
+                    servicesBox.empty(); // clear previous services
+                    if(data.services.length > 0) {
+                        data.services.forEach(function(service) {
+                            var checkbox = `<div>
+                                <input type="checkbox" name="services" value="${service.name}" id="service_${service.id}">
+                                <label for="service_${service.id}">${service.name}</label>
+                            </div>`;
+                            servicesBox.append(checkbox);
+                        });
+                    } else {
+                        servicesBox.append('<p>No services available</p>');
+                    }
+                }
+            });
+        } else {
+            $('#servicesBox').empty();
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>
