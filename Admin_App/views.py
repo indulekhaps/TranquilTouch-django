@@ -4,6 +4,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Categorydb, Servicedb,Staffdb
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -129,14 +130,18 @@ def delete_category(request, category_id):
 
 def add_staff(request):
     cat = Categorydb.objects.all()
-    return render(request,"Add_Staff.html",{'cat':cat})
+    services = Servicedb.objects.all()
+    return render(request,"Add_Staff.html", {'cat': cat, 'services': services})
 
 def save_staff(request):
     if request.method == "POST":
         s_name=request.POST.get('staff_name')
         s_role=request.POST.get('role')
         s_category=request.POST.get('work_category')
-        s_services=request.POST.get('services')
+
+        selected_services = request.POST.getlist('services')
+        s_services = ",".join(selected_services)
+
         s_phone=request.POST.get('phone')
         s_email=request.POST.get('email')
         s_experience=request.POST.get('experience')
@@ -146,3 +151,21 @@ def save_staff(request):
                     Phone=s_phone,Email=s_email,Experience=s_experience,Salary =s_salary,Staff_image=s_img)
         obj.save()
         return redirect(add_staff)
+
+def get_services_by_category(request):
+    category_name = request.GET.get("category")
+
+    if not category_name:
+        return JsonResponse({"services": []})
+
+    # Filter using the Category foreign key
+    filtered_services = Servicedb.objects.filter(Category__Category_Name=category_name)
+
+    data = {
+        "services": [
+            {"id": s.id, "name": s.Service_Name}
+            for s in filtered_services
+        ]
+    }
+
+    return JsonResponse(data)
