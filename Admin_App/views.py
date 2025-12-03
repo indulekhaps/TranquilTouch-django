@@ -3,7 +3,7 @@ from django.core.files.storage import FileSystemStorage
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from .models import Categorydb, Servicedb
+from .models import Categorydb, Servicedb,Staffdb
 
 
 # Create your views here.
@@ -126,3 +126,23 @@ def delete_category(request, category_id):
     data = Categorydb.objects.filter(id=category_id)
     data.delete()
     return redirect(view_category)
+
+def add_staff(request):
+    cat = Categorydb.objects.all()
+    return render(request,"Add_Staff.html",{'cat':cat})
+
+def save_staff(request):
+    if request.method == "POST":
+        s_name=request.POST.get('staff_name')
+        s_role=request.POST.get('role')
+        s_category=request.POST.get('work_category')
+        s_services=request.POST.get('services')
+        s_phone=request.POST.get('phone')
+        s_email=request.POST.get('email')
+        s_experience=request.POST.get('experience')
+        s_salary=request.POST.get('salary')
+        s_img=request.FILES['staff_image']
+        obj=Staffdb(Staff_Name=s_name, Role=s_role, Work_category=s_category,Services=s_services,
+                    Phone=s_phone,Email=s_email,Experience=s_experience,Salary =s_salary,Staff_image=s_img)
+        obj.save()
+        return redirect(add_staff)
