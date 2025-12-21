@@ -178,10 +178,38 @@ def edit_staff(request,staff_id):
     Staff=Staffdb.objects.get(id=staff_id)
     cat = Categorydb.objects.all()
     services = Servicedb.objects.all()
-    # Convert staff's services string to list for pre-checking
+
     selected_services = []
     if Staff.Services:
         selected_services = Staff.Services.split(',')
     return render(request,"Edit_Staff.html",{'Staff':Staff, 'cat': cat, 'services': services,             # <-- SEND TO TEMPLATE
-        'selected_services': selected_services,   # <-- SEND SELECTED LIST
+        'selected_services': selected_services,
     })
+
+def update_staff(request,s_id):
+    if request.method == "POST":
+        s_name = request.POST.get('staff_name')
+        s_role = request.POST.get('role')
+        s_category = request.POST.get('work_category')
+
+        selected_services = request.POST.getlist('services')
+        s_services = ",".join(selected_services)
+
+        s_phone = request.POST.get('phone')
+        s_email = request.POST.get('email')
+        s_experience = request.POST.get('experience')
+        s_salary = request.POST.get('salary')
+        try:
+            s_img = request.FILES['staff_image']
+            fs=FileSystemStorage()
+            file=fs.save(s_img.name,s_img)
+        except MultiValueDictKeyError:
+            file=Staffdb.objects.get(id=s_id).Staff_image
+        Staffdb.objects.filter(id=s_id).update(Staff_Name=s_name, Role=s_role, Work_category=s_category,Services=s_services,
+                    Phone=s_phone,Email=s_email,Experience=s_experience,Salary =s_salary,Staff_image=file)
+        return redirect(view_staff)
+
+def delete_staff(request,staff_id):
+    data = Staffdb.objects.filter(id=staff_id)
+    data.delete()
+    return redirect(view_staff)

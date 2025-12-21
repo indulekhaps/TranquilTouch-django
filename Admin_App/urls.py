@@ -5,16 +5,20 @@ urlpatterns=[
     path('Dashboard/',views.dashboard,name="dashboard"),
     path('Admin_Login/',views.admin,name="admin"),
     path('Admin_Login_check/',views.admin_login,name="admin_login"),
+
     path('Admin/Services/', views.admin_services, name="admin_services"),
     path('Services_Save/', views.save_services, name="save_services"),
     path('View_Services/', views.view_services, name="view_services"),
     path('Edit_Services/<int:service_id>', views.edit_services, name="edit_services"),
     path('Update_Services/<int:s_id>', views.update_services, name="update_services"),
     path('Delete_Services/<int:service_id>', views.delete_services, name="delete_services"),
+
     path('Add_Staff/',views.add_staff, name="add_staff"),
     path('Save_Staff/',views.save_staff, name="save_staff"),
     path('View_Staff/',views.view_staff, name="view_staff"),
     path('Edit_Staff/<int:staff_id>',views.edit_staff, name="edit_staff"),
+    path('Update_Staff/<int:s_id>',views.update_staff, name="update_staff"),
+    path('Delete_Staff/<int:staff_id>',views.delete_staff, name="delete_staff"),
 
     path('get_services_by_category/', views.get_services_by_category, name="get_services_by_category"),
 
