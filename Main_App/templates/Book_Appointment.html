@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Book Appointment · Tranquil Touch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root{
+            --primary:#3b82f6;
+            --accent:#7c3aed;
+            --muted:#6b7280;
+            --radius:14px;
+        }
+        body{
+            background:#f3f7fb;
+            font-family:"Nunito","Segoe UI",Roboto,Arial,sans-serif;
+        }
+        .page-wrapper{
+            padding:32px;
+            max-width:1100px;
+            margin:auto;
+        }
+        .card--glass{
+            border-radius:var(--radius);
+            background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(250,250,255,.92));
+            box-shadow:0 10px 30px rgba(14,30,60,.12);
+            border:1px solid rgba(20,20,40,.05);
+        }
+        .page-title{
+            text-align:center;
+            margin-bottom:25px;
+        }
+        .page-title h2{
+            font-weight:800;
+            color:#0f172a;
+        }
+        .page-title p{
+            color:var(--muted);
+            font-size:15px;
+        }
+        .form-section{padding:28px}
+        .input-icon{position:relative}
+        .input-icon i{
+            position:absolute;
+            left:14px;
+            top:50%;
+            transform:translateY(-50%);
+            color:var(--muted);
+        }
+        .form-control{
+            padding-left:42px;
+            height:46px;
+            border-radius:10px;
+            border:1px solid rgba(20,20,40,.08);
+        }
+        .staff-level{
+            display:flex;
+            gap:14px;
+        }
+        .level-card{
+            flex:1;
+            border:2px solid transparent;
+            border-radius:12px;
+            padding:16px;
+            text-align:center;
+            cursor:pointer;
+            transition:.2s;
+            background:#fff;
+        }
+        .level-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 8px 20px rgba(0,0,0,.08);
+        }
+        .level-card input{display:none}
+        .level-card.gold{border-color:#facc15}
+        .level-card.silver{border-color:#cbd5e1}
+        .level-card.bronze{border-color:#fb923c}
+        .actions{
+            padding:20px;
+            display:flex;
+            justify-content:center;
+        }
+        .btn-primary{
+            background:linear-gradient(90deg,var(--primary),var(--accent));
+            border:0;
+            border-radius:12px;
+            padding:12px 32px;
+            font-weight:700;
+            font-size:16px;
+        }
+
+        #staffstyles
+        .staff-level {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.level-card {
+    position: relative;
+    cursor: pointer;
+    flex: 1;
+    min-width: 180px;
+}
+
+.level-card input {
+    display: none; /* hide radio */
+}
+
+.level-card .card-content {
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    transition: all 0.25s ease;
+}
+
+/* HOVER EFFECT */
+.level-card:hover .card-content {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* ✅ SELECTED STATE */
+.level-card input:checked + .card-content {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #e0f2fe, #f5f3ff);
+    box-shadow: 0 10px 30px rgba(59,130,246,0.25);
+}
+
+/* GOLD / SILVER / BRONZE ACCENTS */
+.level-card.gold input:checked + .card-content {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fff7ed, #fffbeb);
+}
+
+.level-card.silver input:checked + .card-content {
+    border-color: #9ca3af;
+    background: linear-gradient(135deg, #f3f4f6, #ffffff);
+}
+
+.level-card.bronze input:checked + .card-content {
+    border-color: #92400e;
+    background: linear-gradient(135deg, #fef3c7, #fff7ed);
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+    <div class="page-title">
+        <h2>Book Your Appointment</h2>
+        <p>Choose your service & preferred staff level</p>
+    </div>
+
+    <div class="card card--glass">
+        <form method="post" action="#">
+
+
+            <div class="form-section">
+                <div class="row">
+
+                    <!-- Name -->
+                    <div class="col-md-6 mb-3">
+                        <label>Full Name *</label>
+                        <div class="input-icon">
+                            <i class="fa fa-user"></i>
+                            <input type="text" name="customer_name" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6 mb-3">
+                        <label>Phone *</label>
+                        <div class="input-icon">
+                            <i class="fa fa-phone"></i>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="col-md-6 mb-3">
+                        <label>Category *</label>
+                        <div class="input-icon">
+                            <i class="fa fa-list"></i>
+                            <select name="category" id="category" class="form-control" required>
+                                <option value="">Select Category</option>
+                                {% for i in cat %}
+                                <option value="{{ i.Category_Name }}">{{ i.Category_Name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Service -->
+                    <div class="col-md-6 mb-3">
+                        <label>Service *</label>
+                        <div class="input-icon">
+                            <i class="fa fa-scissors"></i>
+                            <select name="service" id="service" class="form-control" required>
+                                <option value="">Select Service</option>
+                                 {% for i in services %}
+                                <option value="{{ i.Service_Name }}">{{ i.Service_Name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Staff Preference -->
+                   <div class="col-12 mb-4">
+    <label>Staff Preference *</label>
+
+    <div class="staff-level">
+
+        <label class="level-card gold">
+            <input type="radio" name="staff_level" value="gold" required>
+            <div class="card-content">
+                <h6>Gold Level</h6>
+                <small>Top Rated Experts</small>
+            </div>
+        </label>
+
+        <label class="level-card silver">
+            <input type="radio" name="staff_level" value="silver">
+            <div class="card-content">
+                <h6>Silver Level</h6>
+                <small>Experienced Staff</small>
+            </div>
+        </label>
+
+        <label class="level-card bronze">
+            <input type="radio" name="staff_level" value="bronze">
+            <div class="card-content">
+                <h6>Bronze Level</h6>
+                <small>Standard Service</small>
+            </div>
+        </label>
+
+    </div>
+</div>
+
+                    <!-- Date -->
+                    <div class="col-md-6 mb-3">
+                        <label>Date *</label>
+                        <div class="input-icon">
+                            <i class="fa fa-calendar"></i>
+                            <input type="date" name="appointment_date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+ <div class="col-md-6 mb-3">
+    <label>Preferred Time *</label>
+    <div class="input-icon">
+        <i class="fa fa-clock"></i>
+        <select name="appointment_time" id="timeSelect" class="form-control" required>
+            <option value="">Select Preferred Time</option>
+
+            <!-- Time Periods -->
+            <option value="period_morning">🌅 Morning</option>
+            <option value="period_noon">☀️ Noon</option>
+            <option value="period_evening">🌇 Evening</option>
+            <option value="period_night">🌙 Night</option>
+        </select>
+    </div>
+    <small class="text-muted">Salon working hours: 9:00 AM – 9:00 PM</small>
+</div>
+
+
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-calendar-check mr-2"></i> Confirm Appointment
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$('#category').change(function(){
+    let category=$(this).val();
+    $.ajax({
+        url:"{% url 'get_services_by_category' %}",
+        data:{'category':category},
+        success:function(data){
+            let s=$('#service');
+            s.empty().append('<option value="">Select Service</option>');
+            data.services.forEach(x=>{
+                s.append(`<option value="${x.name}">${x.name}</option>`);
+            });
+        }
+    });
+});
+
+
+
+const timeData = {
+    period_morning: {
+        label: "🌅 Morning (select your time slots) ",
+        slots: [
+            { value: "09:00", label: "09:00 AM – 10:00 AM" },
+            { value: "10:00", label: "10:00 AM – 11:00 AM" },
+            { value: "11:00", label: "11:00 AM – 12:00 PM" }
+        ]
+    },
+    period_noon: {
+        label: "☀️ Noon",
+        slots: [
+            { value: "12:00", label: "12:00 PM – 01:00 PM" },
+            { value: "13:00", label: "01:00 PM – 02:00 PM" },
+            { value: "14:00", label: "02:00 PM – 03:00 PM" }
+        ]
+    },
+    period_evening: {
+        label: "🌇 Evening",
+        slots: [
+            { value: "15:00", label: "03:00 PM – 04:00 PM" },
+            { value: "16:00", label: "04:00 PM – 05:00 PM" },
+            { value: "17:00", label: "05:00 PM – 06:00 PM" }
+        ]
+    },
+    period_night: {
+        label: "🌙 Night",
+        slots: [
+            { value: "18:00", label: "06:00 PM – 07:00 PM" },
+            { value: "19:00", label: "07:00 PM – 08:00 PM" },
+            { value: "20:00", label: "08:00 PM – 09:00 PM" }
+        ]
+    }
+};
+
+const timeSelect = document.getElementById("timeSelect");
+
+timeSelect.addEventListener("change", function () {
+    const selected = this.value;
+
+    // If a period is selected
+    if (timeData[selected]) {
+        const period = timeData[selected];
+
+        // Clear dropdown
+        timeSelect.innerHTML = "";
+
+        // Show selected period INSIDE box
+        const headerOption = document.createElement("option");
+        headerOption.textContent = period.label;
+        headerOption.value = "";
+        headerOption.selected = true;
+        headerOption.disabled = true;
+        timeSelect.appendChild(headerOption);
+
+        // Add time slots
+        period.slots.forEach(slot => {
+            const opt = document.createElement("option");
+            opt.value = slot.value;
+            opt.textContent = slot.label;
+            timeSelect.appendChild(opt);
+        });
+
+        // Add back option
+        const backOpt = document.createElement("option");
+        backOpt.value = "back";
+        backOpt.textContent = "⬅ Change Time Period";
+        timeSelect.appendChild(backOpt);
+    }
+
+    // Back to period selection
+    if (selected === "back") {
+        timeSelect.innerHTML = `
+            <option value="">Select Preferred Time</option>
+            <option value="period_morning">🌅 Morning</option>
+            <option value="period_noon">☀️ Noon</option>
+            <option value="period_evening">🌇 Evening</option>
+            <option value="period_night">🌙 Night</option>
+        `;
+    }
+});
+
+
+
+</script>
+
+</body>
+</html>

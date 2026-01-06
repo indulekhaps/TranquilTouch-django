@@ -8,5 +8,6 @@ urlpatterns=[
     path('Work/',views.work,name="work"),
     path('Blog/',views.blog,name="blog"),
     path('Contact/',views.contact,name="contact"),
+    path('Book_Appointments/',views.appointment,name="appointment"),
 
 ]
