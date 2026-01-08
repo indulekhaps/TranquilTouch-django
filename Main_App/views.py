@@ -7,6 +7,7 @@ from Admin_App.models import Categorydb, Servicedb,Staffdb
 from Main_App.models import Appointmentdb
 from django.http import JsonResponse
 from django.contrib import messages
+from datetime import date
 
 # Create your views here.
 def index(request):
@@ -30,7 +31,12 @@ def contact(request):
 def appointment(request):
     cat = Categorydb.objects.all()
     services = Servicedb.objects.all()
-    return render(request,"Book_Appointment.html",{'cat': cat, 'services': services})
+
+    return render(request, "Book_Appointment.html", {
+        'cat': cat,
+        'services': services,
+        'today': date.today().isoformat()
+    })
 
 def save_appointment(request):
     if request.method == "POST":
@@ -49,6 +55,17 @@ def save_appointment(request):
             appointment_date=appointment_date,
             appointment_time=appointment_time,
             staff_level=staff_level)
+        phone = request.POST.get('phone')
+
+        if not phone.isdigit() or len(phone) != 10:
+            messages.error(request, "Invalid phone number")
+            return redirect('book_appointment')
+
+        appointment_date = request.POST.get('appointment_date')
+
+        if appointment_date < date.today().isoformat():
+            messages.error(request, "Past date booking is not allowed")
+            return redirect('book_appointment')
         obj.save()
         request.session['new_appointment_alert'] = True
         return redirect('appointment_success')

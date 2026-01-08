@@ -183,7 +183,8 @@
                         <label>Phone *</label>
                         <div class="input-icon">
                             <i class="fa fa-phone"></i>
-                            <input type="text" name="phone" class="form-control" required>
+                            <input type="tel" name="phone" class="form-control" pattern="[6-9]{1}[0-9]{9}" maxlength="10" minlength="10"
+                                   placeholder="Enter 10-digit mobile number" required>
                         </div>
                     </div>
 
@@ -253,7 +254,7 @@
                         <label>Date *</label>
                         <div class="input-icon">
                             <i class="fa fa-calendar"></i>
-                            <input type="date" name="appointment_date" class="form-control" required>
+                            <input type="date" name="appointment_date" class="form-control" min="{{ today }}" required>
                         </div>
                     </div>
 

@@ -33,6 +33,7 @@
           sessionStorage.fonts = true;
         },
       });
+
     </script>
 
     <!-- CSS Files -->
@@ -44,13 +45,7 @@
     <link rel="stylesheet" href="{% static 'Dashboard/assets/css/demo.css' %}" />
   </head>
   <body>
-  {% if show_alert %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    🔔 <strong>New Appointment Received!</strong>
-    A customer has booked a new appointment.
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-</div>
-{% endif %}
+
     <div class="wrapper">
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark">
@@ -151,7 +146,7 @@
                 <div class="collapse" id="forms">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="forms/forms.html">
+                      <a href="{% url 'admin_view_appointments' %}">
                         <span class="sub-item">Basic Form</span>
                       </a>
                     </li>
@@ -1415,5 +1410,37 @@
         fillColor: "rgba(255, 165, 52, .14)",
       });
     </script>
+  <script src="jquery-3.7.1.min.js"></script>
+<script src="bootstrap-notify.min.js"></script>
+{% if show_alert %}
+<script>
+  $(function () {
+    $.notify(
+      {
+        icon: "fa fa-bell",
+        title: "<strong>New Appointment Received</strong><br>",
+        message: "A new booking is waiting for confirmation.",
+        url: "{% url 'admin_view_appointments' %}",
+        target: "_self"
+      },
+      {
+        type: "success",
+        placement: {
+          from: "top",
+          align: "right"
+        },
+        delay: 5000,
+        allow_dismiss: true,
+        newest_on_top: true,
+        animate: {
+          enter: "animated fadeInDown",
+          exit: "animated fadeOutUp"
+        }
+      }
+    );
+  });
+</script>
+{% endif %}
+
   </body>
 </html>
