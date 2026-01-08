@@ -163,8 +163,8 @@
     </div>
 
     <div class="card card--glass">
-        <form method="post" action="#">
-
+        <form method="post" action="{% url 'save_appointment' %}" >
+            {% csrf_token %}
 
             <div class="form-section">
                 <div class="row">
@@ -291,6 +291,7 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+
 $('#category').change(function(){
     let category=$(this).val();
     $.ajax({

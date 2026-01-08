@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Booking Successful · Tranquil Touch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body{
+            background:#f3f7fb;
+            font-family:"Nunito","Segoe UI",sans-serif;
+        }
+        .wrapper{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .card-glass{
+            background:rgba(255,255,255,0.95);
+            border-radius:16px;
+            padding:40px;
+            max-width:520px;
+            width:100%;
+            box-shadow:0 10px 40px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+        .success-icon{
+            font-size:64px;
+            color:#22c55e;
+            margin-bottom:16px;
+        }
+        .btn-primary{
+            background:linear-gradient(90deg,#3b82f6,#7c3aed);
+            border:none;
+            border-radius:10px;
+            padding:10px 24px;
+            font-weight:600;
+        }
+        .muted{
+            color:#6b7280;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="card-glass">
+
+        <div class="success-icon">
+            <i class="fa fa-circle-check"></i>
+        </div>
+
+        <h3 class="mb-2">Booking Request Submitted!</h3>
+
+        <p class="muted mb-4">
+            Thank you for choosing <strong>Tranquil Touch</strong> 🌿
+            Your appointment request has been received successfully.
+        </p>
+
+        <div class="alert alert-info text-left">
+            <ul class="mb-0">
+                <li>Status: <strong>Pending Confirmation</strong></li>
+                <li>Our team will assign staff based on your preference</li>
+                <li>You’ll be contacted shortly</li>
+            </ul>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'index' %}" class="btn btn-primary mr-2">
+                <i class="fa fa-home mr-1"></i> Go Home
+            </a>
+
+            <a href="{% url 'services' %}" class="btn btn-outline-secondary">
+                Book Another Service
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

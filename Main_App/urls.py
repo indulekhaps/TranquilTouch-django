@@ -9,5 +9,7 @@ urlpatterns=[
     path('Blog/',views.blog,name="blog"),
     path('Contact/',views.contact,name="contact"),
     path('Book_Appointments/',views.appointment,name="appointment"),
+    path('Save_Appointment/',views.save_appointment,name="save_appointment"),
+    path('Success_Appointment/',views.appointment_success,name="appointment_success"),
 
 ]
