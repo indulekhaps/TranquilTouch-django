@@ -11,7 +11,11 @@ from django.contrib import messages
 
 # Create your views here.
 def dashboard(request):
-    return render(request, "Dashboard.html")
+    show_alert = request.session.pop('new_appointment_alert', False)
+
+    return render(request, "Dashboard.html", {
+        'show_alert': show_alert
+    })
 
 
 def admin(request):

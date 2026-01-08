@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from Admin_App.models import Categorydb, Servicedb,Staffdb
 from Main_App.models import Appointmentdb
 from django.http import JsonResponse
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -49,6 +50,7 @@ def save_appointment(request):
             appointment_time=appointment_time,
             staff_level=staff_level)
         obj.save()
+        request.session['new_appointment_alert'] = True
         return redirect('appointment_success')
 
 def appointment_success(request):

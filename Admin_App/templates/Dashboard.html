@@ -44,6 +44,13 @@
     <link rel="stylesheet" href="{% static 'Dashboard/assets/css/demo.css' %}" />
   </head>
   <body>
+  {% if show_alert %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    🔔 <strong>New Appointment Received!</strong>
+    A customer has booked a new appointment.
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+{% endif %}
     <div class="wrapper">
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark">
