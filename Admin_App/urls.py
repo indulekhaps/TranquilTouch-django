@@ -30,4 +30,9 @@ urlpatterns=[
     path('Update_Category/<int:c_id>',views.update_category,name="update_category"),
     path('Delete_Category/<int:category_id>',views.delete_category,name="delete_category"),
 
+    path('View_Appointments/', views.admin_view_appointments, name='admin_view_appointments'),
+    path('Edit_Appointment/<int:appointment_id>/',views.edit_appointment,name='edit_appointment'),
+    path('Update_Appointment/<int:appointment_id>/',views.update_appointment,name='update_appointment'),
+
+
 ]

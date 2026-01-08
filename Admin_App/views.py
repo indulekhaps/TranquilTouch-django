@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import Categorydb, Servicedb,Staffdb
 from django.http import JsonResponse
+from Main_App.models import Appointmentdb
 
 
 # Create your views here.
@@ -213,3 +214,43 @@ def delete_staff(request,staff_id):
     data = Staffdb.objects.filter(id=staff_id)
     data.delete()
     return redirect(view_staff)
+
+
+def admin_view_appointments(request):
+    appointments = Appointmentdb.objects.all().order_by('-created_at')
+    return render(request, "View_Appointments.html", {
+        'appointments': appointments
+    })
+
+def edit_appointment(request, appointment_id):
+    appointment = Appointmentdb.objects.get(id=appointment_id)
+    required_category = appointment.Category
+    required_service = appointment.Service
+
+    # Step 2: filter staff by category first
+    staff_qs = Staffdb.objects.filter(Work_category=required_category)
+
+    # Step 3: filter by service (Python-side)
+    eligible_staff = []
+    for staff in staff_qs:
+        if staff.Services:
+            services_list = [s.strip() for s in staff.Services.split(',')]
+            if required_service in services_list:
+                eligible_staff.append(staff)
+
+    return render(request, "Edit_Appointment.html", {
+        'appointment': appointment,
+        'staff_list': eligible_staff
+    })
+
+def update_appointment(request, appointment_id):
+    if request.method == "POST":
+        status = request.POST.get('status')
+        assigned_staff = request.POST.get('assigned_staff')
+
+        Appointmentdb.objects.filter(id=appointment_id).update(
+            status=status,
+            assigned_staff=assigned_staff
+        )
+
+        return redirect('admin_view_appointments')

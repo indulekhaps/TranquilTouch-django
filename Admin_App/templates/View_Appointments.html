@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appointments · Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body{background:#f3f7fb;font-family:Nunito,sans-serif;}
+.wrapper{max-width:1200px;margin:30px auto;}
+.card-glass{
+    background:rgba(255,255,255,0.95);
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+}
+.badge-pending{background:#facc15;}
+.badge-confirmed{background:#22c55e;}
+.badge-cancelled{background:#ef4444;}
+.badge-completed{background:#3b82f6;}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="card-glass">
+
+<h4 class="mb-4">📅 Appointment Requests</h4>
+
+<table class="table table-hover">
+<thead class="thead-light">
+<tr>
+<th>#</th>
+<th>Customer</th>
+<th>Phone</th>
+<th>Category</th>
+<th>Service</th>
+<th>Date</th>
+<th>Time</th>
+<th>Staff Level</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+{% for a in appointments %}
+<tr>
+<td>{{ forloop.counter }}</td>
+<td>{{ a.Customer_name }}</td>
+<td>{{ a.Phone }}</td>
+<td>{{ a.Category }}</td>
+<td>{{ a.Service }}</td>
+<td>{{ a.appointment_date }}</td>
+<td>{{ a.appointment_time }}</td>
+<td>
+    <span class="badge badge-info text-uppercase">
+        {{ a.staff_level }}
+    </span>
+</td>
+<td>
+    <span class="badge
+        {% if a.status == 'pending' %}badge-pending
+        {% elif a.status == 'confirmed' %}badge-confirmed
+        {% elif a.status == 'cancelled' %}badge-cancelled
+        {% else %}badge-completed{% endif %}">
+        {{ a.status|title }}
+    </span>
+</td>
+<td>
+    <a href="{% url 'edit_appointment' a.id %}" class="btn btn-sm btn-outline-primary">
+        Manage
+    </a>
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="10" class="text-center text-muted">No appointments yet</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+</div>
+
+</body>
+</html>
