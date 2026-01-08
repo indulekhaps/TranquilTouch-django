@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<title>Staff Schedule</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body style="background:#f3f7fb;">
+<div class="container mt-5">
+
+<h3 class="mb-4">Staff-wise Appointment Schedule</h3>
+
+{% for staff in staff_list %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <strong>{{ staff.Staff_Name }}</strong> ({{ staff.Role }})
+    </div>
+
+    <div class="card-body p-0">
+        <table class="table table-bordered mb-0">
+            <thead class="thead-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Customer</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for a in appointments %}
+                {% if a.assigned_staff == staff.Staff_Name %}
+                <tr>
+                    <td>{{ a.appointment_date }}</td>
+                    <td>{{ a.appointment_time }}</td>
+                    <td>{{ a.Customer_name }}</td>
+                    <td>{{ a.Service }}</td>
+                    <td>
+                        <span class="badge badge-info">{{ a.status|title }}</span>
+                    </td>
+                </tr>
+                {% endif %}
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        No appointments
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+
+</div>
+</body>
+</html>

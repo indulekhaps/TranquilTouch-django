@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from .models import Categorydb, Servicedb,Staffdb
 from django.http import JsonResponse
 from Main_App.models import Appointmentdb
+from django.contrib import messages
 
 
 # Create your views here.
@@ -245,12 +246,37 @@ def edit_appointment(request, appointment_id):
 
 def update_appointment(request, appointment_id):
     if request.method == "POST":
-        status = request.POST.get('status')
         assigned_staff = request.POST.get('assigned_staff')
+        status = request.POST.get('status')
 
-        Appointmentdb.objects.filter(id=appointment_id).update(
-            status=status,
-            assigned_staff=assigned_staff
-        )
+        appointment = Appointmentdb.objects.get(id=appointment_id)
+
+        # 🔒 DOUBLE BOOKING CHECK
+        conflict = Appointmentdb.objects.filter(
+            assigned_staff=assigned_staff,
+            appointment_date=appointment.appointment_date,
+            appointment_time=appointment.appointment_time
+        ).exclude(id=appointment_id).exclude(status='cancelled')
+
+        if conflict.exists():
+            messages.error(
+                request,
+                f"{assigned_staff} is already booked at this time!"
+            )
+            return redirect('edit_appointment', appointment_id=appointment_id)
+
+        # ✅ SAFE TO UPDATE
+        appointment.assigned_staff = assigned_staff
+        appointment.status = status
+        appointment.save()
 
         return redirect('admin_view_appointments')
+
+def staff_calendar(request):
+    staff_list = Staffdb.objects.all()
+    appointments = Appointmentdb.objects.filter(status__in=['confirmed', 'completed'])
+
+    return render(request, "Staff_Calendar.html", {
+        'staff_list': staff_list,
+        'appointments': appointments
+    })
